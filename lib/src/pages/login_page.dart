@@ -13,12 +13,39 @@ class _LoginState extends State<Login> {
   TextEditingController txtPassword = new TextEditingController();
   UserAPIs user = new UserAPIs();
   Dialogs msg = new Dialogs();
+  bool _obscuredText = true;
 
   @override
   Widget build(BuildContext context) {
-    bool _obscuredText = true;
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Login'),
+      ),
+      body: Center(
+        child: ListView(
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: 180),
+                _emailInput(),
+                SizedBox(height: 50),
+                _passwordInput(),
+                SizedBox(height: 50),
+                _loginButton(),
+                SizedBox(height: 20),
+                _registerButton()
+              ]
+            )
+          ],
+        )
+      ),
+    );
+  }
 
-    final emailInput = TextFormField(
+  Widget _emailInput()
+  {
+    return TextFormField(
       style: TextStyle(
         color: Colors.red
       ),
@@ -44,8 +71,11 @@ class _LoginState extends State<Login> {
         )
       ),
     );
+  }
 
-    final passwordInput = TextFormField(
+  Widget _passwordInput()
+  {
+    return TextFormField(
       style: TextStyle(
         color: Colors.red
       ),
@@ -57,19 +87,9 @@ class _LoginState extends State<Login> {
           borderSide: BorderSide(color: Colors.redAccent, width: 2.0),
           borderRadius: BorderRadius.circular(32.0)
         ),
-        suffixIcon: IconButton(
-          color: Colors.red,
-          onPressed: () {
-            setState(() {
-              if(_obscuredText)
-                _obscuredText = false;
-              else
-                _obscuredText = true;
-
-              print(_obscuredText);
-            });
-          },
-          icon: Icon(Icons.lock),
+        suffix: InkWell(
+          onTap: _togglePasswordView,
+          child: Icon(Icons.visibility),
         ),
         hintText: 'Contraseña',
         hintStyle: TextStyle(
@@ -85,48 +105,56 @@ class _LoginState extends State<Login> {
         )
       ),
     );
+  }
 
-    //padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-
-    final loginButton = ConstrainedBox(
-      constraints: BoxConstraints.tightFor(width: 10, height: 40),
-      child: ElevatedButton(
-        child: Text('Iniciar sesión'),
-        style: ElevatedButton.styleFrom(
-          primary: Colors.red,
-          textStyle: TextStyle(
-            fontSize: 30,
-            color: Colors.white,
-            fontWeight: FontWeight.bold
-          )
+  Widget _loginButton()
+  {
+    return ElevatedButton(
+      child: Text('Iniciar sesión'),
+      style: ElevatedButton.styleFrom(
+        primary: Colors.red,
+        onPrimary: Colors.white,
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        textStyle: TextStyle(
+          fontSize: 30,
+          color: Colors.white,
+          fontWeight: FontWeight.bold
         ),
-        onPressed: () async {
-          if(txtUser.text.isEmpty || txtPassword.text.isEmpty)
-          {
-            msg.emptyBoxesDialog(context);
-          }
+        shadowColor: Colors.orange,
+        elevation: 5
+      ),
+      onPressed: () async {
+        if(txtUser.text.isEmpty || txtPassword.text.isEmpty)
+        {
+          msg.emptyBoxesDialog(context);
+        }
+        else
+        {
+          var logedIn = await user.login(txtUser.text, txtPassword.text);
+
+          if(logedIn)
+            print('Redirigir al menu de notas');
           else
-          {
-            var logedIn = await user.login(txtUser.text, txtPassword.text);
-
-            if(logedIn)
-              print('Redirigir al menu de notas');
-            else
-              msg.invalidLoginDialog(context);
-          }
-        },
-      )
+            msg.invalidLoginDialog(context);
+        }
+      },
     );
+  }
 
-    final registerButton = ElevatedButton(
+  Widget _registerButton()
+  {
+    return ElevatedButton(
       child: Text('Crear cuenta'),
       style: ElevatedButton.styleFrom(
         primary: Colors.red,
+        padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         textStyle: TextStyle(
            fontSize: 30,
            color: Colors.white,
            fontWeight: FontWeight.bold
-        )
+        ),
+        shadowColor: Colors.orange,
+        elevation: 5
       ),
       onPressed: () async {
         Navigator.pushReplacement(
@@ -136,32 +164,12 @@ class _LoginState extends State<Login> {
         );
       },
     );
+  }
 
-    final prueba = ElevatedButton(
-      child: Text('Prueba'),
-      onPressed: (){},
-    );
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Login'),
-      ),
-      body: Center(
-          child: ListView(
-            children: [
-              SizedBox(height: 180),
-              emailInput,
-              SizedBox(height: 50),
-              passwordInput,
-              SizedBox(height: 50),
-              loginButton,
-              SizedBox(height: 20),
-              registerButton,
-              SizedBox(height: 20),
-              prueba
-            ],
-          ),
-      ),
-    );
+  void _togglePasswordView()
+  {
+    setState(() {
+      _obscuredText = !_obscuredText;
+    });
   }
 }
