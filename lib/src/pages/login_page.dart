@@ -1,4 +1,5 @@
 import 'package:crud_notas/src/api/user_api.dart';
+import 'package:crud_notas/src/pages/notes_list.dart';
 import 'package:crud_notas/src/pages/user_registration_page.dart';
 import 'package:crud_notas/src/utils/messages.dart';
 import 'package:flutter/material.dart';
@@ -88,7 +89,7 @@ class _LoginState extends State<Login> {
           borderRadius: BorderRadius.circular(32.0)
         ),
         suffix: InkWell(
-          onTap: _togglePasswordView,
+          onTap: togglePasswordView,
           child: Icon(Icons.visibility),
         ),
         hintText: 'Contraseña',
@@ -133,7 +134,11 @@ class _LoginState extends State<Login> {
           var logedIn = await user.login(txtUser.text, txtPassword.text);
 
           if(logedIn)
-            print('Redirigir al menu de notas');
+            Navigator.pushReplacement(
+              context, MaterialPageRoute(
+                builder: (BuildContext ctx) => NotesList()
+              )
+            );
           else
             msg.invalidLoginDialog(context);
         }
@@ -166,7 +171,7 @@ class _LoginState extends State<Login> {
     );
   }
 
-  void _togglePasswordView()
+  void togglePasswordView()
   {
     setState(() {
       _obscuredText = !_obscuredText;
