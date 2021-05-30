@@ -4,12 +4,14 @@ import 'package:http/http.dart' as http;
 
 class UserAPIs
 {
+  String url = '192.168.0.5:3000';
+
   Future<bool> login(String mail, String password) async
   {
     bool logedIn = false;
 
     final response = await http.post(
-      Uri.http('192.168.0.10:3000', '/login'),
+      Uri.http(url, '/login'),
       headers: <String, String> {
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -44,7 +46,7 @@ class UserAPIs
   Future<UserModel> createUser(String name, String mail, String password) async
   {
     final response = await http.post(
-      Uri.http('192.168.0.10:3000', '/user'),
+      Uri.http(url, '/user'),
       headers: <String, String> {
         'Content-Type': 'application/json; charset=UTF-8',
       },

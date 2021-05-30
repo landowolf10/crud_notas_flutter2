@@ -17,11 +17,11 @@ class NotesListState extends State<NotesList> {
       appBar: AppBar(
         title: Text("Created notes"),
       ),
-      body: Container(
-        alignment: Alignment.center,
+      body: Center(
         child: ListView(
           children: [
             Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
                   height: 400,
@@ -29,7 +29,12 @@ class NotesListState extends State<NotesList> {
                     future: apis.getNotes(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData)
-                        return CircularProgressIndicator();
+                        return Text('No notes were found',
+                          style: TextStyle(
+                            fontSize: 50,
+                            color: Colors.red
+                          ),
+                        );
 
                       var values = snapshot.data;
 
@@ -37,7 +42,7 @@ class NotesListState extends State<NotesList> {
                         itemCount: snapshot.data.length,
                         itemBuilder: (context, index) {
                           return ListTile(
-                            title: Text(values[index].name,
+                            title: Text(values[index].nombreCreador,
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 20,
@@ -52,24 +57,29 @@ class NotesListState extends State<NotesList> {
               ],
             ),
             SizedBox(height: 50),
-            ElevatedButton(
-            child: Text('Iniciar sesión'),
-            style: ElevatedButton.styleFrom(
-              primary: Colors.red,
-              onPrimary: Colors.white,
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-              textStyle: TextStyle(
-                fontSize: 30,
-                color: Colors.white,
-                fontWeight: FontWeight.bold
-              ),
-              shadowColor: Colors.orange,
-              elevation: 5
-            ),
-            onPressed: () {
-              print('Note created');
-            },
-          )
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  child: Text('Create note'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.red,
+                    onPrimary: Colors.white,
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                    textStyle: TextStyle(
+                      fontSize: 30,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold
+                    ),
+                    shadowColor: Colors.orange,
+                    elevation: 5
+                  ),
+                  onPressed: () {
+                    print('Note created');
+                  },
+                )
+              ],
+            )
             /*ElevatedButton(
               child: Text('Main menu'),
               style: ElevatedButton.styleFrom(
