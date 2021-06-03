@@ -4,14 +4,12 @@ import 'package:http/http.dart' as http;
 
 class UserAPIs
 {
-  String url = '192.168.0.5:3000';
-
   Future<bool> login(String mail, String password) async
   {
     bool logedIn = false;
 
     final response = await http.post(
-      Uri.http(url, '/login'),
+      Uri.parse('http://192.168.0.6:3000/login'),
       headers: <String, String> {
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -46,7 +44,7 @@ class UserAPIs
   Future<UserModel> createUser(String name, String mail, String password) async
   {
     final response = await http.post(
-      Uri.http(url, '/user'),
+      Uri.parse('http://192.168.0.6:3000/user'),
       headers: <String, String> {
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -57,11 +55,14 @@ class UserAPIs
       }),
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200)
+    {
       var userRegistered = json.decode(response.body);
     
       return UserModel.fromJson(userRegistered);
-    } else {
+    }
+    else
+    {
       print("Failed to create new user");
       throw Exception("Failed to create new user");
     }

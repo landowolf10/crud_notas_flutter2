@@ -133,6 +133,8 @@ class _LoginState extends State<Login> {
         {
           var logedIn = await user.login(txtUser.text, txtPassword.text);
 
+          print('LOGED IN: $logedIn');
+
           if(logedIn)
             Navigator.pushReplacement(
               context, MaterialPageRoute(

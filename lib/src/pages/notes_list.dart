@@ -80,26 +80,6 @@ class NotesListState extends State<NotesList> {
                 )
               ],
             )
-            /*ElevatedButton(
-              child: Text('Main menu'),
-              style: ElevatedButton.styleFrom(
-                primary: Colors.blue,
-                textStyle: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold
-                )
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Notes()),
-                  );
-                    
-                //apis.getNotes();
-                //apiAlbum.fetchUsers();
-              },
-            ),*/
           ],
         )
       )
