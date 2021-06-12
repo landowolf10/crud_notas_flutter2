@@ -1,8 +1,12 @@
+import 'dart:math';
+
 import 'package:crud_notas/src/api/user_api.dart';
 import 'package:crud_notas/src/pages/notes_list.dart';
 import 'package:crud_notas/src/pages/user_registration_page.dart';
 import 'package:crud_notas/src/utils/messages.dart';
 import 'package:flutter/material.dart';
+
+Map<String, dynamic> loginObject;
 
 class Login extends StatefulWidget {
   @override
@@ -131,12 +135,12 @@ class _LoginState extends State<Login> {
         }
         else
         {
-          var logedIn = await user.login(txtUser.text, txtPassword.text);
+          loginObject = await user.login(txtUser.text, txtPassword.text);
 
-          print('LOGED IN: $logedIn');
+          print('LOGED IN: ' + loginObject['logged_in'].toString());
 
-          if(logedIn)
-            Navigator.pushReplacement(
+          if(loginObject['logged_in'])
+            Navigator.push(
               context, MaterialPageRoute(
                 builder: (BuildContext ctx) => NotesList()
               )
@@ -178,5 +182,14 @@ class _LoginState extends State<Login> {
     setState(() {
       _obscuredText = !_obscuredText;
     });
+  }
+
+  
+}
+
+class GetLoginData{
+  int userID()
+  {
+    return loginObject['user_id'];
   }
 }

@@ -1,5 +1,7 @@
 import 'package:crud_notas/src/api/notes_api.dart';
 import 'package:crud_notas/src/models/notes_model.dart';
+import 'package:crud_notas/src/pages/login_page.dart';
+import 'package:crud_notas/src/utils/creation_dialog.dart';
 //import 'package:crud_notas/src/pages/notes_main.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +12,8 @@ class NotesList extends StatefulWidget {
 
 class NotesListState extends State<NotesList> {
   NotesAPIs apis = new NotesAPIs();
+  GetLoginData loginData = new GetLoginData();
+  List<Map<String, dynamic>> notesList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -26,27 +30,58 @@ class NotesListState extends State<NotesList> {
                 SizedBox(
                   height: 400,
                   child: FutureBuilder<List<NotesModel>>(
-                    future: apis.getNotes(),
+                    future: apis.getNotes(loginData.userID()),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData)
+                      {
                         return Text('No notes were found',
                           style: TextStyle(
                             fontSize: 50,
                             color: Colors.red
                           ),
                         );
-
+                      }
+                        
                       var values = snapshot.data;
 
                       return ListView.builder(
-                        itemCount: snapshot.data.length,
+                        itemCount: notesList.length,
                         itemBuilder: (context, index) {
-                          return ListTile(
-                            title: Text(values[index].nombreCreador,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 20,
-                              )
+                          return Card(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                ListTile(
+                                  leading: Icon(Icons.album),
+                                  title: Text(values[index].titulo),
+                                  subtitle: Text(values[index].contenido),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: <Widget>[
+                                    Text('Created date: ' + values[index].fecha + ' - ' + values[index].hora)
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: <Widget>[
+                                    TextButton(
+                                      child: const Text('UPDATE'),
+                                      onPressed: () {
+                                        print('Edit card');
+                                      },
+                                    ),
+                                    const SizedBox(width: 8),
+                                    TextButton(
+                                      child: const Text('DELETE'),
+                                      onPressed: () {
+                                        print('Card deleted');
+                                      },
+                                    ),
+                                    //const SizedBox(width: 8),
+                                  ],
+                                ),
+                              ],
                             ),
                           );
                         }
@@ -75,7 +110,10 @@ class NotesListState extends State<NotesList> {
                     elevation: 5
                   ),
                   onPressed: () {
-                    print('Note created');
+                    //CreateUserDialog createUser = CreateUserDialog();
+
+                    //createUser.createUserDialog(context);
+                    createUserDialog(context);
                   },
                 )
               ],
@@ -84,5 +122,77 @@ class NotesListState extends State<NotesList> {
         )
       )
     );
+  }
+
+  TextEditingController _txtTitle = new TextEditingController();
+  TextEditingController _txtContent = new TextEditingController();
+
+  createUserDialog(BuildContext context) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Create new note'),
+            content: Container(
+              width: 50,
+              child: ListView(
+                children: [
+                  TextField(
+                    controller: _txtTitle,
+                    decoration: InputDecoration(hintText: "Enter note title"),
+                  ),
+                  TextField(
+                    controller: _txtContent,
+                    decoration: InputDecoration(hintText: "Write your note"),
+                  ),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Create note'),
+                onPressed: () async {
+                  GetLoginData loginData = new GetLoginData();
+                  NotesAPIs notes = new NotesAPIs();
+                  int _userID = loginData.userID();
+
+                  setState(() {
+                    Map<String, dynamic> objNotes = {
+                        "user_id": _userID,
+                        "note_title": _txtTitle,
+                        "note_content": _txtContent
+                      };
+                      notesList.add(objNotes);
+                    });
+
+
+                    print('List: ' + notesList.toString());
+                    /*print(_userName);
+                    print('Title: ' + _txtTitle.text);
+                    print('Title: ' + _txtContent.text);*/
+
+                    /*Map<String, dynamic> objNotes = {
+                      "user_id": _userID,
+                      "note_title": _txtTitle,
+                      "note_content": _txtContent
+                    };*/
+
+                    //notesList.add(objNotes);
+
+                    await notes.createNotes(_userID, _txtTitle.text, _txtContent.text);
+                    Navigator.of(context).pop();
+
+                  //print(notesList.length);
+                },
+              ),
+              TextButton(
+                child: Text('Cancel'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
   }
 }
