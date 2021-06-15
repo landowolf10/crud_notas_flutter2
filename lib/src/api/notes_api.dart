@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 class NotesAPIs
 {
-  String url = 'http://192.168.0.15:3000/notes';
+  String url = 'http://192.168.0.16:3000/notes';
   List<NotesModel> notesList;
 
   Future<List<NotesModel>> getNotes(int userID) async
@@ -27,8 +27,6 @@ class NotesAPIs
 
   Future<NotesModel> createNotes(int idCreador, String titulo, String contenido) async
   {
-    print('Recibiendo: ' + idCreador.toString() + ' - ' + titulo + ' - ' + contenido);
-
     final response = await http.post(
       Uri.parse(url),
       headers: <String, String> {
@@ -53,6 +51,28 @@ class NotesAPIs
     {
       print("Failed to create new note");
       throw Exception("Failed to create new note");
+    }
+  }
+
+  Future<NotesModel> deleteNote(int idNota) async
+  {
+    final response = await http.delete(
+      Uri.parse(url + '/' + idNota.toString()),
+      headers: <String, String> {
+        'Content-Type': 'application/json; charset=UTF-8',
+      }
+    );
+    
+    if(response.statusCode == 200)
+    {
+      var deletedNote = json.decode(response.body);
+
+      return NotesModel.fromJson(deletedNote);
+    }
+    else
+    {
+      print("Failed to delete the selected note");
+      throw Exception("Failed to delete the selected note");
     }
   }
 }

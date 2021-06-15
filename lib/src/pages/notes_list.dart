@@ -1,8 +1,6 @@
 import 'package:crud_notas/src/api/notes_api.dart';
 import 'package:crud_notas/src/models/notes_model.dart';
 import 'package:crud_notas/src/pages/login_page.dart';
-import 'package:crud_notas/src/utils/creation_dialog.dart';
-//import 'package:crud_notas/src/pages/notes_main.dart';
 import 'package:flutter/material.dart';
 
 class NotesList extends StatefulWidget {
@@ -13,7 +11,6 @@ class NotesList extends StatefulWidget {
 class NotesListState extends State<NotesList> {
   NotesAPIs apis = new NotesAPIs();
   GetLoginData loginData = new GetLoginData();
-  List<Map<String, dynamic>> notesList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +42,7 @@ class NotesListState extends State<NotesList> {
                       var values = snapshot.data;
 
                       return ListView.builder(
-                        itemCount: notesList.length,
+                        itemCount: snapshot.data.length,
                         itemBuilder: (context, index) {
                           return Card(
                             child: Column(
@@ -68,14 +65,18 @@ class NotesListState extends State<NotesList> {
                                     TextButton(
                                       child: const Text('UPDATE'),
                                       onPressed: () {
-                                        print('Edit card');
+                                        print('Note updated');
                                       },
                                     ),
                                     const SizedBox(width: 8),
                                     TextButton(
                                       child: const Text('DELETE'),
-                                      onPressed: () {
-                                        print('Card deleted');
+                                      onPressed: () async {
+                                        int noteID = values[index].idNota;
+
+                                        print(noteID);
+
+                                        await apis.deleteNote(noteID);
                                       },
                                     ),
                                     //const SizedBox(width: 8),
@@ -157,29 +158,10 @@ class NotesListState extends State<NotesList> {
                   int _userID = loginData.userID();
 
                   setState(() {
-                    Map<String, dynamic> objNotes = {
-                        "user_id": _userID,
-                        "note_title": _txtTitle,
-                        "note_content": _txtContent
-                      };
-                      notesList.add(objNotes);
-                    });
+                    
+                  });
 
-
-                    print('List: ' + notesList.toString());
-                    /*print(_userName);
-                    print('Title: ' + _txtTitle.text);
-                    print('Title: ' + _txtContent.text);*/
-
-                    /*Map<String, dynamic> objNotes = {
-                      "user_id": _userID,
-                      "note_title": _txtTitle,
-                      "note_content": _txtContent
-                    };*/
-
-                    //notesList.add(objNotes);
-
-                    await notes.createNotes(_userID, _txtTitle.text, _txtContent.text);
+                  await notes.createNotes(_userID, _txtTitle.text, _txtContent.text);
                     Navigator.of(context).pop();
 
                   //print(notesList.length);

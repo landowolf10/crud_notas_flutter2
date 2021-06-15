@@ -1,5 +1,6 @@
 class NotesModel
 {
+  int idNota;
   int idUsuario;
   String nombreCreador;
   String fecha;
@@ -8,6 +9,7 @@ class NotesModel
   String contenido;
 
   NotesModel({
+    this.idNota,
     this.idUsuario,
     this.nombreCreador,
     this.fecha,
@@ -19,6 +21,7 @@ class NotesModel
   factory NotesModel.fromJson(Map<String, dynamic> json)
   {
     return NotesModel(
+      idNota: json['id'],
       idUsuario: json['id_usuario'],
       nombreCreador: json['nombre_creador'],
       fecha: json['fecha'],

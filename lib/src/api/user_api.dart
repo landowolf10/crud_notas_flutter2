@@ -10,7 +10,7 @@ class UserAPIs
     Map<String, dynamic> userObj = {};
 
     final response = await http.post(
-      Uri.parse('http://192.168.0.15:3000/login'),
+      Uri.parse('http://192.168.0.16:3000/login'),
       headers: <String, String> {
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -31,7 +31,6 @@ class UserAPIs
           logedIn = true;
 
           userObj = {
-            "logged_in": logedIn,
             "user_id": userData['data']['id'],
             "user_name": userData['data']['nombre']
           };
@@ -41,8 +40,10 @@ class UserAPIs
     }
     else
     {
-      logedIn = true;
+      logedIn = false;
     }
+
+    userObj['logged_in'] = logedIn;
 
     print(userObj);
 
@@ -52,7 +53,7 @@ class UserAPIs
   Future<UserModel> createUser(String name, String mail, String password) async
   {
     final response = await http.post(
-      Uri.parse('http://192.168.0.15:3000/user'),
+      Uri.parse('http://192.168.0.16:3000/user'),
       headers: <String, String> {
         'Content-Type': 'application/json; charset=UTF-8',
       },
