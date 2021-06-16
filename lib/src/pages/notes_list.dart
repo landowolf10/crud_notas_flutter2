@@ -72,9 +72,12 @@ class NotesListState extends State<NotesList> {
                                     TextButton(
                                       child: const Text('DELETE'),
                                       onPressed: () async {
-                                        int noteID = values[index].idNota;
+                                        int noteID;
 
-                                        print(noteID);
+                                        setState(() {
+                                          noteID = values[index].idNota;
+                                          print(noteID);
+                                        });
 
                                         await apis.deleteNote(noteID);
                                       },
