@@ -54,6 +54,35 @@ class NotesAPIs
     }
   }
 
+  Future<NotesModel> updateNote(int idNota, String titulo, String contenido) async
+  {
+    final response = await http.put(
+      Uri.parse(url),
+      headers: <String, String> {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic> {
+        'id': idNota,
+        'titulo': titulo,
+        'contenido': contenido
+      })
+    );
+
+    print(response.body);
+    
+    if(response.statusCode == 200)
+    {
+      var updatedNote = json.decode(response.body);
+
+      return NotesModel.fromJson(updatedNote);
+    }
+    else
+    {
+      print("Failed to update the selected note");
+      throw Exception("Failed to update the selected note");
+    }
+  }
+
   Future<NotesModel> deleteNote(int idNota) async
   {
     final response = await http.delete(
