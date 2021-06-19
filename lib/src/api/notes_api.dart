@@ -62,7 +62,7 @@ class NotesAPIs
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic> {
-        'id': idNota,
+        'id_nota': idNota,
         'titulo': titulo,
         'contenido': contenido
       })
@@ -86,7 +86,7 @@ class NotesAPIs
   Future<NotesModel> deleteNote(int idNota) async
   {
     final response = await http.delete(
-      Uri.parse(url + '/' + idNota.toString()),
+      Uri.parse(url + '/$idNota'),
       headers: <String, String> {
         'Content-Type': 'application/json; charset=UTF-8',
       }

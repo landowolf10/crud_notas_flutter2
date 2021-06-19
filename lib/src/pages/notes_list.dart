@@ -190,7 +190,7 @@ class NotesListState extends State<NotesList> {
                 });
 
                 await notes.createNotes(_userID, _txtTitle.text, _txtContent.text);
-                  Navigator.of(context).pop();
+                Navigator.of(context).pop();
               },
             ),
             TextButton(
@@ -235,7 +235,7 @@ updateUserDialog(BuildContext context, int noteID, String titulo, String conteni
           ),
           actions: <Widget>[
             TextButton(
-              child: Text('Updayte note'),
+              child: Text('Update note'),
               onPressed: () async {
                 NotesAPIs notes;
 
@@ -244,7 +244,7 @@ updateUserDialog(BuildContext context, int noteID, String titulo, String conteni
                 });
 
                 await notes.updateNote(noteID, _txtTitle.text, _txtContent.text);
-                  Navigator.of(context).pop();
+                Navigator.of(context).pop();
               },
             ),
             TextButton(

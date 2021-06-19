@@ -18,7 +18,7 @@ class NotesModel
     this.contenido
   });
 
-  factory NotesModel.fromJson(Map<String, dynamic> json)
+  factory NotesModel.fromJson(Map<dynamic, dynamic> json)
   {
     return NotesModel(
       idNota: json['id'],
