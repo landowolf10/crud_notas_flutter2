@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:crud_notas/src/api/user_api.dart';
 import 'package:crud_notas/src/pages/notes_list.dart';
 import 'package:crud_notas/src/pages/user_registration_page.dart';

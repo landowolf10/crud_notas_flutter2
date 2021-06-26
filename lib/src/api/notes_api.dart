@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 class NotesAPIs
 {
-  String url = 'http://192.168.0.19:3000/notes';
+  String url = 'http://192.168.0.13:3000/notes';
   List<NotesModel> notesList;
 
   Future<List<NotesModel>> getNotes(int userID) async
@@ -25,7 +25,7 @@ class NotesAPIs
     return notesList;
   }
 
-  Future<NotesModel> createNotes(int idCreador, String titulo, String contenido) async
+  Future<NotesModel> createNotes(int idUsuario, String titulo, String contenido) async
   {
     final response = await http.post(
       Uri.parse(url),
@@ -33,7 +33,7 @@ class NotesAPIs
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic> {
-        'id_creador': idCreador,
+        'id_usuario': idUsuario,
         'titulo': titulo,
         'contenido': contenido
       })
@@ -62,7 +62,7 @@ class NotesAPIs
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic> {
-        'id_nota': idNota,
+        'id': idNota,
         'titulo': titulo,
         'contenido': contenido
       })
