@@ -1,5 +1,5 @@
 import 'package:crud_notas/src/api/notes_api.dart';
-import 'package:crud_notas/src/pages/login_page.dart';
+import 'package:crud_notas/src/views/login_page.dart';
 import 'package:flutter/material.dart';
 
 /*class NoteCreationPage extends StatefulWidget {

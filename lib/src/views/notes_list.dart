@@ -1,6 +1,6 @@
 import 'package:crud_notas/src/api/notes_api.dart';
 import 'package:crud_notas/src/models/notes_model.dart';
-import 'package:crud_notas/src/pages/login_page.dart';
+import 'package:crud_notas/src/views/login_page.dart';
 import 'package:crud_notas/src/utils/messages.dart';
 import 'package:flutter/material.dart';
 
@@ -104,7 +104,8 @@ class NotesListState extends State<NotesList>
     );
   }
 
-  Widget addNoteBtn() {
+  Widget addNoteBtn()
+  {
     return ElevatedButton(
       child: Text('Add your note'),
       style: ElevatedButton.styleFrom(
@@ -116,7 +117,7 @@ class NotesListState extends State<NotesList>
           shadowColor: Colors.orange,
           elevation: 5),
       onPressed: () {
-        createNoteDialog(context);
+        createAndUpdateNoteDialog(context, 'create');
       },
     );
   }
@@ -167,7 +168,7 @@ class NotesListState extends State<NotesList>
           noteID = values[index].idNota;
           noteTitle = values[index].titulo;
           noteContent = values[index].contenido;
-          updateUserDialog(context, noteID, noteTitle, noteContent);
+          createAndUpdateNoteDialog(context, 'update', noteID: noteID, titulo: noteTitle, contenido: noteContent);
         });
       },
     );
@@ -194,120 +195,92 @@ class NotesListState extends State<NotesList>
     );
   }
 
-  createNoteDialog(BuildContext context) async {
+  createAndUpdateNoteDialog(BuildContext context, String task, {int noteID, String titulo, String contenido}) async
+  {
     TextEditingController _txtTitle = new TextEditingController();
     TextEditingController _txtContent = new TextEditingController();
+    String buttonText = "";
+    String dialogTitle = "";
 
-    _txtTitle.text = '';
-    _txtContent.text = '';
-
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Create new note'),
-            content: Container(
-              width: 50,
-              child: ListView(
-                children: [
-                  TextField(
-                    controller: _txtTitle,
-                    decoration: InputDecoration(hintText: "Enter note title"),
-                  ),
-                  TextField(
-                    controller: _txtContent,
-                    decoration: InputDecoration(hintText: "Write your note"),
-                  ),
-                ],
-              ),
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: Text('Create note'),
-                onPressed: () async {
-                  GetLoginData loginData;
-                  NotesAPIs notes;
-                  int _userID;
-
-                  setState(() {
-                    loginData = new GetLoginData();
-                    notes = new NotesAPIs();
-                    _userID = loginData.userID();
-                  });
-
-                  await notes.createNotes(
-                      _userID, _txtTitle.text, _txtContent.text);
-                  Navigator.of(context).pop();
-                },
-              ),
-              TextButton(
-                child: Text('Cancel'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          );
-        });
-  }
-
-  updateUserDialog(
-      BuildContext context, int noteID, String titulo, String contenido) async {
-    TextEditingController _txtTitle = new TextEditingController();
-    TextEditingController _txtContent = new TextEditingController();
-
-    _txtTitle.text = titulo;
-    _txtContent.text = contenido;
+    switch(task)
+    {
+      case 'create':
+        _txtTitle.text = '';
+        _txtContent.text = '';
+        buttonText = 'Create note';
+        dialogTitle = 'Create note';
+        break;
+      case 'update':
+        _txtTitle.text = titulo;
+        _txtContent.text = contenido;
+        buttonText = 'Update note';
+        dialogTitle = 'Update note';
+        break;
+    }
 
     return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Update note'),
-            content: Container(
-              width: 50,
-              child: ListView(
-                children: [
-                  TextField(
-                    controller: _txtTitle,
-                    decoration: InputDecoration(hintText: "Enter note title"),
-                  ),
-                  TextField(
-                    controller: _txtContent,
-                    decoration: InputDecoration(hintText: "Write your note"),
-                  ),
-                ],
-              ),
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(dialogTitle),
+          content: Container(
+            width: 50,
+            child: ListView(
+              children: [
+                TextField(
+                  controller: _txtTitle,
+                  decoration: InputDecoration(hintText: "Enter note title"),
+                ),
+                TextField(
+                  controller: _txtContent,
+                  decoration: InputDecoration(hintText: "Write your note"),
+                ),
+              ],
             ),
-            actions: <Widget>[
-              TextButton(
-                child: Text('Update note'),
-                onPressed: () async {
-                  NotesAPIs notes;
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(buttonText),
+              onPressed: () async {
+                GetLoginData loginData;
+                NotesAPIs notes;
+                int _userID;
 
-                  setState(() {
-                    notes = new NotesAPIs();
-                  });
+                setState(() {
+                  loginData = new GetLoginData();
+                  notes = new NotesAPIs();
+                  _userID = loginData.userID();
+                });
+                
+                switch(task)
+                {
+                  case 'create': await notes.createNotes(_userID, _txtTitle.text, _txtContent.text);
+                                 break;
+                  case 'update':
+                    if (_txtTitle.text.isNotEmpty || _txtContent.text.isNotEmpty)
+                    {
+                      await notes.updateNote(noteID, _txtTitle.text, _txtContent.text);
+                    }
+                    else
+                    {
+                      Dialogs msg = new Dialogs();
+                      msg.emptyBoxesDialog(context);
+                    }
+                    break;
+                }
 
-                  if (_txtTitle.text.isNotEmpty ||
-                      _txtContent.text.isNotEmpty) {
-                    await notes.updateNote(
-                        noteID, _txtTitle.text, _txtContent.text);
-                    Navigator.of(context).pop();
-                  } else {
-                    Dialogs msg = new Dialogs();
-                    msg.emptyBoxesDialog(context);
-                  }
-                },
-              ),
-              TextButton(
-                child: Text('Cancel'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          );
-        });
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      }
+    );
   }
 }

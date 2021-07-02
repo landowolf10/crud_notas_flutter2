@@ -1,14 +1,16 @@
 import 'package:crud_notas/src/api/user_api.dart';
-import 'package:crud_notas/src/pages/login_page.dart';
+import 'package:crud_notas/src/views/login_page.dart';
 import 'package:crud_notas/src/utils/messages.dart';
 import 'package:flutter/material.dart';
 
-class UserRegistration extends StatefulWidget {
+class UserRegistration extends StatefulWidget
+{
   @override
   _UserRegistrationState createState() => _UserRegistrationState();
 }
 
-class _UserRegistrationState extends State<UserRegistration> {
+class _UserRegistrationState extends State<UserRegistration>
+{
   TextEditingController txtName = new TextEditingController();
   TextEditingController txtMail = new TextEditingController();
   TextEditingController txtPassword = new TextEditingController();
@@ -17,31 +19,32 @@ class _UserRegistrationState extends State<UserRegistration> {
   bool _obscuredText = true;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
     return Scaffold(
       appBar: AppBar(
         title: Text('Registro'),
       ),
       body: Center(
-          child: ListView(
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(height: 180),
-                  _nameInput(),
-                  SizedBox(height: 50),
-                  _mailInput(),
-                  SizedBox(height: 50),
-                  _passwordInput(),
-                  SizedBox(height: 20),
-                  _registerButton(),
-                  SizedBox(height: 20),
-                  _returnButton()
-                ]
-              )
-            ],
-          ),
+        child: ListView(
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: 180),
+                _nameInput(),
+                SizedBox(height: 50),
+                _mailInput(),
+                SizedBox(height: 50),
+                _passwordInput(),
+                SizedBox(height: 20),
+                _registerButton(),
+                SizedBox(height: 20),
+                _returnButton()
+              ]
+            )
+          ],
+        ),
       ),
     );
   }
@@ -54,24 +57,7 @@ class _UserRegistrationState extends State<UserRegistration> {
       ),
       controller: txtName,
       autofocus: true,
-      decoration: InputDecoration(
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.redAccent, width: 2.0),
-          borderRadius: BorderRadius.circular(32.0)
-        ),
-        hintText: 'Nombre',
-        hintStyle: TextStyle(
-          color: Colors.red
-        ),
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(32.0),
-          borderSide: BorderSide(
-            color: Colors.orange,
-            width: 2.0
-          )
-        )
-      ),
+      decoration: txtBoxDecoration('Nombre')
     );
   }
 
@@ -84,24 +70,7 @@ class _UserRegistrationState extends State<UserRegistration> {
       controller: txtMail,
       keyboardType: TextInputType.emailAddress,
       autofocus: true,
-      decoration: InputDecoration(
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.redAccent, width: 2.0),
-          borderRadius: BorderRadius.circular(32.0)
-        ),
-        hintText: 'Email',
-        hintStyle: TextStyle(
-          color: Colors.red
-        ),
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(32.0),
-          borderSide: BorderSide(
-            color: Colors.orange,
-            width: 2.0
-          )
-        )
-      ),
+      decoration: txtBoxDecoration('Email')
     );
   }
 
@@ -114,28 +83,33 @@ class _UserRegistrationState extends State<UserRegistration> {
       controller: txtPassword,
       autofocus: false,
       obscureText: _obscuredText,
-      decoration: InputDecoration(
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.redAccent, width: 2.0),
-          borderRadius: BorderRadius.circular(32.0)
-        ),
-        suffix: InkWell(
-          onTap: _togglePasswordView,
-          child: Icon(Icons.visibility),
-        ),
-        hintText: 'Contraseña',
-        hintStyle: TextStyle(
-          color: Colors.red
-        ),
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(32.0),
-          borderSide: BorderSide(
-            color: Colors.orange,
-            width: 2.0
-          )
-        )
+      decoration: txtBoxDecoration('Contraseña'),
+    );
+  }
+
+  InputDecoration txtBoxDecoration(String hintText)
+  {
+    return InputDecoration(
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.redAccent, width: 2.0),
+        borderRadius: BorderRadius.circular(32.0)
       ),
+      suffix: InkWell(
+        onTap: _togglePasswordView,
+        child: Icon(Icons.visibility),
+      ),
+      hintText: hintText,
+      hintStyle: TextStyle(
+        color: Colors.red
+      ),
+      contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(32.0),
+        borderSide: BorderSide(
+          color: Colors.orange,
+          width: 2.0
+        )
+      )
     );
   }
 

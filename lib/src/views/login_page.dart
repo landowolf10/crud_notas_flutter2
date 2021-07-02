@@ -1,17 +1,19 @@
 import 'package:crud_notas/src/api/user_api.dart';
-import 'package:crud_notas/src/pages/notes_list.dart';
-import 'package:crud_notas/src/pages/user_registration_page.dart';
+import 'package:crud_notas/src/views/notes_list.dart';
+import 'package:crud_notas/src/views/user_registration_page.dart';
 import 'package:crud_notas/src/utils/messages.dart';
 import 'package:flutter/material.dart';
 
 Map<String, dynamic> loginObject;
 
-class Login extends StatefulWidget {
+class Login extends StatefulWidget
+{
   @override
   _LoginState createState() => _LoginState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginState extends State<Login>
+{
   TextEditingController txtUser = new TextEditingController();
   TextEditingController txtPassword = new TextEditingController();
   UserAPIs user = new UserAPIs();
@@ -19,7 +21,8 @@ class _LoginState extends State<Login> {
   bool _obscuredText = true;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
     return Scaffold(
       appBar: AppBar(
         title: Text('Login'),
@@ -55,24 +58,7 @@ class _LoginState extends State<Login> {
       controller: txtUser,
       keyboardType: TextInputType.emailAddress,
       autofocus: true,
-      decoration: InputDecoration(
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.redAccent, width: 2.0),
-          borderRadius: BorderRadius.circular(32.0)
-        ),
-        hintText: 'Correo',
-        hintStyle: TextStyle(
-          color: Colors.red
-        ),
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(32.0),
-          borderSide: BorderSide(
-            color: Colors.orange,
-            width: 2.0
-          )
-        )
-      ),
+      decoration: txtBoxDecoration('Correo'),
     );
   }
 
@@ -85,28 +71,7 @@ class _LoginState extends State<Login> {
       controller: txtPassword,
       autofocus: false,
       obscureText: _obscuredText,
-      decoration: InputDecoration(
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.redAccent, width: 2.0),
-          borderRadius: BorderRadius.circular(32.0)
-        ),
-        suffix: InkWell(
-          onTap: togglePasswordView,
-          child: Icon(Icons.visibility),
-        ),
-        hintText: 'Contraseña',
-        hintStyle: TextStyle(
-          color: Colors.red
-        ),
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(32.0),
-          borderSide: BorderSide(
-            color: Colors.orange,
-            width: 2.0
-          )
-        )
-      ),
+      decoration: txtBoxDecoration('Contraseña')
     );
   }
 
@@ -175,14 +140,34 @@ class _LoginState extends State<Login> {
     );
   }
 
+  InputDecoration txtBoxDecoration(String hintText)
+  {
+    return InputDecoration(
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.redAccent, width: 2.0),
+        borderRadius: BorderRadius.circular(32.0)
+      ),
+        hintText: hintText,
+        hintStyle: TextStyle(
+          color: Colors.red
+        ),
+        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(32.0),
+          borderSide: BorderSide(
+            color: Colors.orange,
+            width: 2.0
+          )
+        )
+      );
+  }
+
   void togglePasswordView()
   {
     setState(() {
       _obscuredText = !_obscuredText;
     });
   }
-
-  
 }
 
 class GetLoginData{
