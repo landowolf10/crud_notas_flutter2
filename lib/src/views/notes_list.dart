@@ -234,6 +234,7 @@ class NotesListState extends State<NotesList>
                 TextField(
                   controller: _txtContent,
                   decoration: InputDecoration(hintText: "Write your note"),
+                  maxLines: null,
                 ),
               ],
             ),

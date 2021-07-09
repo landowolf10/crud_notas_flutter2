@@ -57,7 +57,6 @@ class _LoginState extends State<Login>
       ),
       controller: txtUser,
       keyboardType: TextInputType.emailAddress,
-      autofocus: true,
       decoration: txtBoxDecoration('Correo'),
     );
   }

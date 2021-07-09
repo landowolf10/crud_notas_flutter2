@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 class NotesAPIs
 {
-  String url = 'http://192.168.0.13:3000/notes';
+  String url = 'http://192.168.0.20:3000/note';
   List<NotesModel> notesList;
 
   Future<List<NotesModel>> getNotes(int userID) async

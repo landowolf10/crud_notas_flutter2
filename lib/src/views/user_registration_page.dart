@@ -56,8 +56,7 @@ class _UserRegistrationState extends State<UserRegistration>
         color: Colors.red
       ),
       controller: txtName,
-      autofocus: true,
-      decoration: txtBoxDecoration('Nombre')
+      decoration: txtBoxDecoration('Nombre', Icons.person)
     );
   }
 
@@ -69,8 +68,7 @@ class _UserRegistrationState extends State<UserRegistration>
       ),
       controller: txtMail,
       keyboardType: TextInputType.emailAddress,
-      autofocus: true,
-      decoration: txtBoxDecoration('Email')
+      decoration: txtBoxDecoration('Email', Icons.mail)
     );
   }
 
@@ -81,13 +79,12 @@ class _UserRegistrationState extends State<UserRegistration>
         color: Colors.red
       ),
       controller: txtPassword,
-      autofocus: false,
       obscureText: _obscuredText,
-      decoration: txtBoxDecoration('Contraseña'),
+      decoration: txtBoxDecoration('Contraseña', Icons.visibility),
     );
   }
 
-  InputDecoration txtBoxDecoration(String hintText)
+  InputDecoration txtBoxDecoration(String hintText, IconData icon)
   {
     return InputDecoration(
       focusedBorder: OutlineInputBorder(
@@ -96,7 +93,7 @@ class _UserRegistrationState extends State<UserRegistration>
       ),
       suffix: InkWell(
         onTap: _togglePasswordView,
-        child: Icon(Icons.visibility),
+        child: Icon(icon),
       ),
       hintText: hintText,
       hintStyle: TextStyle(
