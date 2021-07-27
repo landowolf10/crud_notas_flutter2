@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:crud_notas/src/api/notes_api.dart';
 import 'package:crud_notas/src/models/notes_model.dart';
 import 'package:crud_notas/src/views/login_page.dart';
@@ -84,7 +86,7 @@ class NotesListState extends State<NotesList>
   {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-      color: Colors.pink,
+      color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
