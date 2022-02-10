@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class NotesModel
 {
   int idNota;
@@ -29,5 +31,24 @@ class NotesModel
       titulo: json['titulo'],
       contenido: json['contenido']
     );
+  }
+
+  Map<String, dynamic> toJson()
+  {
+    return {
+      'id': idNota,
+      'id_usuario': idUsuario,
+      'nombre_creador': nombreCreador,
+      'fecha': fecha,
+      'hora': hora,
+      'titulo': titulo,
+      'contenido': contenido,
+    };
+  }
+
+  String notesToJson(NotesModel data)
+  {
+    final jsonData = data.toJson();
+    return json.encode(jsonData);
   }
 }

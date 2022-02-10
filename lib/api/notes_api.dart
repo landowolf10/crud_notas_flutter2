@@ -1,10 +1,10 @@
-import 'package:crud_notas/src/models/notes_model.dart';
+import 'package:crud_notas/models/notes_model.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class NotesAPIs
 {
-  String url = 'http://192.168.0.19:3000/note';
+  String url = 'http://192.168.0.11:3000/note';
   List<NotesModel> notesList;
 
   Future<List<NotesModel>> getNotes(int userID) async
@@ -25,18 +25,14 @@ class NotesAPIs
     return notesList;
   }
 
-  Future<NotesModel> createNotes(int idUsuario, String titulo, String contenido) async
+  Future<NotesModel> createNotes(NotesModel notes) async
   {
     final response = await http.post(
       Uri.parse(url),
       headers: <String, String> {
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, dynamic> {
-        'id_usuario': idUsuario,
-        'titulo': titulo,
-        'contenido': contenido
-      })
+      body: notes.notesToJson(notes)
     );
 
     print(response.body);

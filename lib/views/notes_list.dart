@@ -1,9 +1,9 @@
 import 'dart:math';
 
-import 'package:crud_notas/src/api/notes_api.dart';
-import 'package:crud_notas/src/models/notes_model.dart';
-import 'package:crud_notas/src/views/login_page.dart';
-import 'package:crud_notas/src/utils/messages.dart';
+import 'package:crud_notas/api/notes_api.dart';
+import 'package:crud_notas/models/notes_model.dart';
+import 'package:crud_notas/views/login_page.dart';
+import 'package:crud_notas/utils/messages.dart';
 import 'package:flutter/material.dart';
 
 class NotesList extends StatefulWidget
@@ -119,7 +119,9 @@ class NotesListState extends State<NotesList>
           shadowColor: Colors.orange,
           elevation: 5),
       onPressed: () {
-        createAndUpdateNoteDialog(context, 'create');
+        setState(() {
+          createAndUpdateNoteDialog(context, 'create');
+        });
       },
     );
   }
@@ -257,8 +259,10 @@ class NotesListState extends State<NotesList>
                 
                 switch(task)
                 {
-                  case 'create': await notes.createNotes(_userID, _txtTitle.text, _txtContent.text);
-                                 break;
+                  case 'create': 
+                    NotesModel notesData = NotesModel(idUsuario: _userID, titulo: _txtTitle.text, contenido: _txtContent.text);
+                    await notes.createNotes(notesData);
+                    break;
                   case 'update':
                     if (_txtTitle.text.isNotEmpty || _txtContent.text.isNotEmpty)
                     {

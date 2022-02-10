@@ -1,6 +1,6 @@
-import 'package:crud_notas/src/api/user_api.dart';
-import 'package:crud_notas/src/views/login_page.dart';
-import 'package:crud_notas/src/utils/messages.dart';
+import 'package:crud_notas/api/user_api.dart';
+import 'package:crud_notas/views/login_page.dart';
+import 'package:crud_notas/utils/messages.dart';
 import 'package:flutter/material.dart';
 
 class UserRegistration extends StatefulWidget

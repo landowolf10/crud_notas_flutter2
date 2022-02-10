@@ -1,7 +1,7 @@
-import 'package:crud_notas/src/api/user_api.dart';
-import 'package:crud_notas/src/views/notes_list.dart';
-import 'package:crud_notas/src/views/user_registration_page.dart';
-import 'package:crud_notas/src/utils/messages.dart';
+import 'package:crud_notas/api/user_api.dart';
+import 'package:crud_notas/views/notes_list.dart';
+import 'package:crud_notas/views/user_registration_page.dart';
+import 'package:crud_notas/utils/messages.dart';
 import 'package:flutter/material.dart';
 
 Map<String, dynamic> loginObject;

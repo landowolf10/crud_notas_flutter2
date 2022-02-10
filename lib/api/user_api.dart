@@ -1,10 +1,10 @@
 import 'dart:convert';
-import 'package:crud_notas/src/models/user_model.dart';
+import 'package:crud_notas/models/user_model.dart';
 import 'package:http/http.dart' as http;
 
 class UserAPIs
 {
-  String url = 'http://192.168.0.19:3000';
+  String url = 'http://192.168.0.11:3000';
 
   Future<Map<String, dynamic>> login(String mail, String password) async
   {
