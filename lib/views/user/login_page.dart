@@ -1,7 +1,8 @@
 import 'package:crud_notas/api/user_api.dart';
-import 'package:crud_notas/views/notes_list.dart';
-import 'package:crud_notas/views/user_registration_page.dart';
+import 'package:crud_notas/views/note/notes_view.dart';
+import 'package:crud_notas/views/user/user_registration_page.dart';
 import 'package:crud_notas/utils/messages.dart';
+import 'package:crud_notas/views/widgets/textInput.dart';
 import 'package:flutter/material.dart';
 
 Map<String, dynamic> loginObject;
@@ -34,7 +35,7 @@ class _LoginState extends State<Login>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(height: 180),
-                _emailInput(),
+                TextInput(hintText: "Email", txtController: txtUser),
                 SizedBox(height: 50),
                 _passwordInput(),
                 SizedBox(height: 50),
@@ -46,18 +47,6 @@ class _LoginState extends State<Login>
           ],
         )
       ),
-    );
-  }
-
-  Widget _emailInput()
-  {
-    return TextFormField(
-      style: TextStyle(
-        color: Colors.red
-      ),
-      controller: txtUser,
-      keyboardType: TextInputType.emailAddress,
-      decoration: txtBoxDecoration('Correo'),
     );
   }
 

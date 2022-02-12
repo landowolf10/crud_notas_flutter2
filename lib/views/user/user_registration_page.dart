@@ -1,5 +1,5 @@
 import 'package:crud_notas/api/user_api.dart';
-import 'package:crud_notas/views/login_page.dart';
+import 'package:crud_notas/views/user/login_page.dart';
 import 'package:crud_notas/utils/messages.dart';
 import 'package:flutter/material.dart';
 

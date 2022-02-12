@@ -2,7 +2,8 @@ import 'dart:math';
 
 import 'package:crud_notas/api/notes_api.dart';
 import 'package:crud_notas/models/notes_model.dart';
-import 'package:crud_notas/views/login_page.dart';
+import 'package:crud_notas/views/note/create_note_view.dart';
+import 'package:crud_notas/views/user/login_page.dart';
 import 'package:crud_notas/utils/messages.dart';
 import 'package:flutter/material.dart';
 
@@ -14,8 +15,18 @@ class NotesList extends StatefulWidget
 
 class NotesListState extends State<NotesList>
 {
-  NotesAPIs apis = new NotesAPIs();
-  GetLoginData loginData = new GetLoginData();
+  NotesAPIs apis;
+  GetLoginData loginData;
+  int userID;
+
+  @override
+  void initState() {
+    super.initState();
+    apis = new NotesAPIs();
+    loginData = new GetLoginData();
+
+    userID = loginData.userID();
+  }
 
   @override
   Widget build(BuildContext context)
@@ -56,7 +67,7 @@ class NotesListState extends State<NotesList>
     return SizedBox(
       height: 500,
       child: FutureBuilder<List<NotesModel>>(
-        future: apis.getNotes(loginData.userID()),
+        future: apis.getNotes(userID),
         builder: (context, snapshot) {
           if (!snapshot.hasData)
           {
@@ -119,9 +130,13 @@ class NotesListState extends State<NotesList>
           shadowColor: Colors.orange,
           elevation: 5),
       onPressed: () {
-        setState(() {
-          createAndUpdateNoteDialog(context, 'create');
-        });
+        //setState(() {
+          //+createAndUpdateNoteDialog(context, 'create');
+        //});
+
+        Navigator.push(context, MaterialPageRoute(
+          builder: (BuildContext context) => CreateNoteView())
+        );
       },
     );
   }
@@ -172,7 +187,7 @@ class NotesListState extends State<NotesList>
           noteID = values[index].idNota;
           noteTitle = values[index].titulo;
           noteContent = values[index].contenido;
-          createAndUpdateNoteDialog(context, 'update', noteID: noteID, titulo: noteTitle, contenido: noteContent);
+          //createAndUpdateNoteDialog(context, 'update', noteID: noteID, titulo: noteTitle, contenido: noteContent);
         });
       },
     );
@@ -199,7 +214,7 @@ class NotesListState extends State<NotesList>
     );
   }
 
-  createAndUpdateNoteDialog(BuildContext context, String task, {int noteID, String titulo, String contenido}) async
+  /*createAndUpdateNoteDialog(BuildContext context, String task, {int noteID, String titulo, String contenido}) async
   {
     TextEditingController _txtTitle = new TextEditingController();
     TextEditingController _txtContent = new TextEditingController();
@@ -289,5 +304,5 @@ class NotesListState extends State<NotesList>
         );
       }
     );
-  }
+  }*/
 }
