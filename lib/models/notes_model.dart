@@ -36,13 +36,9 @@ class NotesModel
   Map<String, dynamic> toJson()
   {
     return {
-      'id': idNota,
       'id_usuario': idUsuario,
-      'nombre_creador': nombreCreador,
-      'fecha': fecha,
-      'hora': hora,
       'titulo': titulo,
-      'contenido': contenido,
+      'contenido': contenido
     };
   }
 

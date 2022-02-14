@@ -4,12 +4,14 @@ class TextInput extends StatelessWidget {
   final String hintText;
   final TextEditingController txtController;
   final TextInputType inputType;
+  final int maxLines;
 
   const TextInput({
     Key key, 
     this.hintText,
     this.txtController,
-    this.inputType
+    this.inputType,
+    this.maxLines
   }) : super(key: key);
 
   @override
@@ -25,6 +27,7 @@ class TextInput extends StatelessWidget {
       ),
       controller: txtController,
       keyboardType: inputType,
+      maxLines: maxLines,
       decoration: textBoxDecoration(hintText),
     );
   }
